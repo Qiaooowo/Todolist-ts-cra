@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TodoList from './TodoList';
 import TodoInput from './TodoInput';
 import Filter from './Filter';
+import { useEffect } from 'react';
 
 export interface StateProps{
     id : number;
@@ -12,12 +13,18 @@ export interface StateProps{
 //函数式组件
 const Todo = () => {
 
+    useEffect(() => {
+        document.title = 'TodoList';
+      });
     //hook
     const [todoList, setTodolist] = useState<StateProps[]>([])
     const [filterList,setfilterList] = useState<StateProps[]>([])
     console.log('组件更新执行')
     //状态提升至父组件 组件控制自身state 使用hook声明state 与setState方法 相当于所有的setState方法在父组件
 
+    useEffect(()=>{
+        console.log("todoList 初始化/变了");
+    },[todoList])
     //修改状态
     const changeTodo = (id :number) => {
         const newTodoList = todoList.map(item =>{
@@ -30,6 +37,7 @@ const Todo = () => {
         })
         setTodolist(newTodoList);
     }
+   
     //删除
     const deleteTodo = (id :number) => {
         const  newTodoList= todoList.filter(item =>{
